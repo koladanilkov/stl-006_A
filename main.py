@@ -4,7 +4,7 @@ def connectToWifiAndUpdate():
     print('Memory free', gc.mem_free())
 
     from app.ota_updater import OTAUpdater
-
+	
     sta_if = network.WLAN(network.STA_IF)
     if not sta_if.isconnected():
         print('connecting to network...')
