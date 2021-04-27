@@ -64,6 +64,7 @@ def connect_and_subscribe():
   client = MQTTClient(client_id, mqtt_server, user = b'test', password = b'P@ssw0rd!')
   client.set_callback(sub_cb)
   client.connect()
+
   client.subscribe(topic_sub_power)
   client.subscribe(topic_sub_scan)
   client.subscribe(topic_sub_koef_brightness)
