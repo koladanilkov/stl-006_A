@@ -3,7 +3,7 @@ import machine
 from machine import Pin, PWM
 
 
-koef_brightnes = 1
+koef_brightnes = 8
 power = 100
 nowPower = 100
 p13 = Pin(13, Pin.OUT)   
