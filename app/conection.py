@@ -7,7 +7,7 @@ import machine
 
 
 mqtt_server = '109.248.175.143'
-topic_sub_scan = b'controllers/scan/'
+topic_sub_scan = b'controllers/scan'
 topic_sub_koef_brightness = b'controllers/set/koef_brightness'
 topic_sub_power = b'controller/'+ client_id + b'/power'
 topic_sub_ip = b'controller/'+ client_id + b'/get/ip'
@@ -15,7 +15,10 @@ topic_sub_reset = b'controller/'+ client_id + b'/reset'
 topic_sub_reset_all = b'controllers/reset'
 topic_sub_web_repl = b'controller/'+ client_id + b'/web_repl'
 
+
+topic_pub_health_check = b'controllers/' + client_id + b'/health_check'
 topic_pub_scan = b'controllers/' + client_id
+topic_pub_reset = b'controller/'+ client_id + b'/reset/ok'
 topic_pub_status = b'controller/' + client_id + b'/satus'
 topic_pub_ip = b'controller/' + client_id + b'/ip'
 
@@ -36,7 +39,11 @@ def connectToWiFi():
   machineIp = station.ifconfig()[0]
 
 
-
+def health_check_pub(msg):
+  client.publish(topic_pub_health_check, str(msg))
+  
+def reset_pub():
+  client.publish(topic_pub_reset, '1')
 
 def sub_cb(topic, msg):
   print((topic, msg))
@@ -51,6 +58,7 @@ def sub_cb(topic, msg):
     setKoefBrightnes(min(max(int(msg), 1), 20))
   elif (topic == topic_sub_reset or topic == topic_sub_reset_all) and msg == b'1':
     print('mqtt => reset')
+    reset_pub()
     machine.reset()
   elif (topic == topic_sub_ip and msg == b'1'):
     print('mqtt => get ip')

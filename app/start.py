@@ -11,6 +11,7 @@ webrepl.start()
 timeLastRedact = utime.ticks_ms()
 timeLastReconect = utime.ticks_ms()
 timeLastReboot = utime.ticks_ms()
+timeLastPubHealthCheck = utime.ticks_ms()
 while True:
   try:
     conection.client.check_msg()
@@ -20,8 +21,13 @@ while True:
     if utime.ticks_ms() - timeLastReconect > 300000:
         conection.connectToMQTT()
         timeLastReconect = utime.ticks_ms()
-    if utime.ticks_ms() - timeLastReboot > 18000000:
+    if utime.ticks_ms() - timeLastReboot > 3600000:
+    	conection.reset_pub()
         machine.reset()
+    if utime.ticks_ms() - timeLastPubHealthCheck > 10000:
+    	conection.health_check_pub( gc.mem_free() )
+    	timeLastPubHealthCheck = utime.ticks_ms()
+    
       
   except OSError as e:
     conection.restart_and_reconnect()
