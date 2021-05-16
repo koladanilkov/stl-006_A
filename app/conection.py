@@ -7,7 +7,7 @@ import machine
 
 
 mqtt_server = '109.248.175.143'
-topic_sub_scan = b'controllers/scan'
+topic_sub_scan = b'controllers/scan/'
 topic_sub_koef_brightness = b'controllers/set/koef_brightness'
 topic_sub_power = b'controller/'+ client_id + b'/power'
 topic_sub_ip = b'controller/'+ client_id + b'/get/ip'
@@ -17,8 +17,8 @@ topic_sub_web_repl = b'controller/'+ client_id + b'/web_repl'
 
 
 topic_pub_health_check = b'controllers/' + client_id + b'/health_check'
-topic_pub_scan = b'controllers/' + client_id
 topic_pub_reset = b'controller/'+ client_id + b'/reset/ok'
+topic_pub_scan = b'controllers/' + client_id
 topic_pub_status = b'controller/' + client_id + b'/satus'
 topic_pub_ip = b'controller/' + client_id + b'/ip'
 
@@ -38,12 +38,12 @@ def connectToWiFi():
   print(station.ifconfig())
   machineIp = station.ifconfig()[0]
 
-
 def health_check_pub(msg):
   client.publish(topic_pub_health_check, str(msg))
   
 def reset_pub():
   client.publish(topic_pub_reset, '1')
+
 
 def sub_cb(topic, msg):
   print((topic, msg))
@@ -65,8 +65,8 @@ def sub_cb(topic, msg):
     client.publish(topic_pub_ip, machineIp)
   elif (topic == topic_sub_web_repl):
     pwm17.duty(1023)
-    time.sleep(10)
-    exit()
+    reset_pub()
+    webReplOn()
     
 def connect_and_subscribe():
   client = MQTTClient(client_id, mqtt_server, user = b'test', password = b'P@ssw0rd!')
@@ -96,3 +96,20 @@ def connectToMQTT():
     client = connect_and_subscribe()
   except OSError as e:
     restart_and_reconnect()
+    
+def webReplOn():
+    import btree
+    f = open("mydb", "w+b")
+    db = btree.open(f)
+    db[b"wr"] = b"1"
+    db.flush()
+    machine.reset()
+    
+def webReplOff():
+    import btree
+    f = open("mydb", "w+b")
+    db = btree.open(f)
+    db[b"wr"] = b"0"
+    db.flush()
+    machine.reset()
+    

@@ -23,8 +23,24 @@ def connectToWifiAndUpdate():
 
 def startApp():
     import app.start
+try:
+    connectToWifiAndUpdate()
+except:
+    print('EXCEPTION')
 
 
-connectToWifiAndUpdate()
-startApp()
+try:
+    f = open("mydb", "r+b")
+    db = btree.open(f)
+except OSError:
+    f = open("mydb", "w+b")
+    db = btree.open(f)
+    db[b"wr"] = b"0"
+    db.flush()
 
+
+if (db[b"wr"] == b"1"):
+    import webrepl
+    webrepl.start()
+else:
+    startApp()
