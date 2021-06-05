@@ -7,7 +7,7 @@ import machine
 
 
 mqtt_server = '109.248.175.51'
-topic_sub_scan = b'controllers/scan/'
+topic_sub_scan = b'controllers/scan'
 topic_sub_koef_brightness = b'controllers/set/koef_brightness'
 topic_sub_power = b'controller/'+ client_id + b'/power'
 topic_sub_ip = b'controller/'+ client_id + b'/get/ip'
@@ -19,7 +19,7 @@ topic_sub_web_repl = b'controller/'+ client_id + b'/web_repl'
 topic_pub_health_check = b'controllers/' + client_id + b'/health_check'
 topic_pub_reset = b'controller/'+ client_id + b'/reset/ok'
 topic_pub_scan = b'controllers/' + client_id
-topic_pub_status = b'controller/' + client_id + b'/satus'
+topic_pub_status = b'controller/' + client_id + b'/status'
 topic_pub_ip = b'controller/' + client_id + b'/ip'
 
 machineIp = '(0, 0, 0, 0)'
