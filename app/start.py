@@ -6,11 +6,8 @@ import app.hardwear as hardwear
 import app.conection as conection
 import machine
 
-try:
-    conection.connectToWiFi()
-    conection.connectToMQTT()
-except:
-    conection.restart_and_reconnect()
+conection.connectToWiFi()
+conection.connectToMQTT()
     
 timeLastRedact = utime.ticks_ms()
 timeLastReconect = utime.ticks_ms()

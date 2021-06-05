@@ -6,7 +6,7 @@ from .hardwear import setKoefBrightnes, client_id, setPower, getPower, pwm17
 import machine
 
 
-mqtt_server = '109.248.175.143'
+mqtt_server = '109.248.175.51'
 topic_sub_scan = b'controllers/scan/'
 topic_sub_koef_brightness = b'controllers/set/koef_brightness'
 topic_sub_power = b'controller/'+ client_id + b'/power'
