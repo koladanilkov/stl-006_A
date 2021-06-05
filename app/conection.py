@@ -80,6 +80,7 @@ def connect_and_subscribe():
   client.subscribe(topic_sub_reset_all)
   client.subscribe(topic_sub_ip)
   client.subscribe(topic_sub_web_repl)
+  client.publish(topic_pub_status, str(getPower()))
   print('Connected to %s MQTT broker, subscribed to topics: \n %s \n %s \n %s \n %s \n %s \n %s \n %s' % (mqtt_server, topic_sub_power, topic_sub_scan, topic_sub_koef_brightness, topic_sub_reset, topic_sub_reset_all, topic_sub_ip, topic_sub_web_repl))
   return client
 
